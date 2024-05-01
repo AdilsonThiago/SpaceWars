@@ -1,0 +1,42 @@
+[gd_scene load_steps=5 format=3 uid="uid://cn8ovw3y2iq8v"]
+
+[ext_resource type="Script" path="res://CameraScpt.gd" id="1_61bah"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cjsw4"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+
+[sub_resource type="SphereMesh" id="SphereMesh_is0ka"]
+material = SubResource("StandardMaterial3D_cjsw4")
+radius = 0.07
+height = 6.79
+
+[sub_resource type="Curve" id="Curve_quulp"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="Camera3D" type="Camera3D"]
+transform = Transform3D(-1, 1.35629e-14, -8.74228e-08, -3.52707e-08, 0.915002, 0.40345, 7.9992e-08, 0.40345, -0.915002, 0, 3.119, -13)
+current = true
+script = ExtResource("1_61bah")
+
+[node name="CPUParticles3D" type="CPUParticles3D" parent="."]
+transform = Transform3D(-1, 7.9992e-08, 3.52707e-08, 1.42109e-14, 0.40345, -0.915002, -8.74228e-08, -0.915002, -0.40345, 3.05861e-06, 14.204, -34.9865)
+amount = 20
+lifetime = 0.5
+local_coords = true
+mesh = SubResource("SphereMesh_is0ka")
+emission_shape = 6
+emission_ring_axis = Vector3(0, 1, 0)
+emission_ring_height = 17.0
+emission_ring_radius = 17.0
+emission_ring_inner_radius = 10.0
+direction = Vector3(0, -1, 0)
+spread = 0.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 60.0
+initial_velocity_max = 65.0
+scale_amount_min = 0.5
+scale_amount_max = 1.2
+scale_amount_curve = SubResource("Curve_quulp")

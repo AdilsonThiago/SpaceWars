@@ -1,0 +1,118 @@
+[gd_scene load_steps=12 format=3 uid="uid://w7bhkfkv2y41"]
+
+[ext_resource type="Script" path="res://xray.gd" id="1_1yejw"]
+[ext_resource type="Texture2D" uid="uid://cry5etx0x3tdt" path="res://Effects/bolt.png" id="2_d555u"]
+[ext_resource type="AudioStream" uid="uid://bkv5spdmj6f3w" path="res://Sfx/weaponfire13.wav" id="3_n6i3t"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c3y16"]
+transparency = 1
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.0392157, 0.141176, 0.305882, 0.74902)
+metallic = 0.7
+roughness = 0.6
+disable_receive_shadows = true
+grow_amount = 1.32
+
+[sub_resource type="SphereMesh" id="SphereMesh_3gkr5"]
+radius = 2.5
+height = 5.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s3kbf"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+disable_ambient_light = true
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("2_d555u")
+disable_receive_shadows = true
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_i272g"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_06d3l"]
+radius = 7.0
+
+[sub_resource type="Animation" id="Animation_1uv7a"]
+resource_name = "normal"
+length = 0.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:material_override:albedo_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.0392157, 0.141176, 0.568627, 0.188235), Color(0.0392157, 0.141176, 0.568627, 0.85098)]
+}
+
+[sub_resource type="Animation" id="Animation_12ncu"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:material_override:albedo_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.0392157, 0.141176, 0.305882, 0.74902)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qpk8g"]
+_data = {
+"RESET": SubResource("Animation_12ncu"),
+"normal": SubResource("Animation_1uv7a")
+}
+
+[node name="Node3D" type="Area3D"]
+script = ExtResource("1_1yejw")
+lifetime = 2.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.75, 0, 0, 0, 1.75, 0, 0, 0, 1.75, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_c3y16")
+cast_shadow = 0
+mesh = SubResource("SphereMesh_3gkr5")
+
+[node name="CPUParticles3D" type="CPUParticles3D" parent="."]
+material_override = SubResource("StandardMaterial3D_s3kbf")
+cast_shadow = 0
+amount = 15
+lifetime = 0.05
+randomness = 1.0
+local_coords = true
+mesh = SubResource("QuadMesh_i272g")
+emission_shape = 1
+emission_sphere_radius = 4.0
+direction = Vector3(0, 0, 0)
+spread = 0.0
+gravity = Vector3(0, 0, 0)
+angle_min = -180.0
+angle_max = 180.0
+scale_amount_min = 0.6
+scale_amount_max = 2.0
+color = Color(1, 1, 1, 0.266667)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_06d3l")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3_n6i3t")
+autoplay = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_qpk8g")
+}
+autoplay = "normal"
+speed_scale = 1.3

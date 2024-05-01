@@ -1,0 +1,100 @@
+[gd_scene load_steps=12 format=3 uid="uid://beuprqmybrgpi"]
+
+[ext_resource type="Texture2D" uid="uid://dxsidrevguflf" path="res://Backgrounds/Scene-1.jpg" id="1_qmd7k"]
+[ext_resource type="Script" path="res://Stage.gd" id="1_sx2i0"]
+[ext_resource type="PackedScene" uid="uid://cn8ovw3y2iq8v" path="res://camera.tscn" id="3_wl6xf"]
+[ext_resource type="PackedScene" uid="uid://cpf22cfrvi7wl" path="res://UI.tscn" id="4_7pt2j"]
+[ext_resource type="AudioStream" uid="uid://ddll4h01iwaqd" path="res://Musics/n-Dimensions (Main Theme).mp3" id="6_0avlo"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6loti"]
+blend_mode = 1
+cull_mode = 1
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("1_qmd7k")
+metallic = 0.7
+roughness = 0.2
+emission_enabled = true
+emission_energy_multiplier = 0.25
+emission_texture = ExtResource("1_qmd7k")
+
+[sub_resource type="SphereMesh" id="SphereMesh_qlen8"]
+material = SubResource("StandardMaterial3D_6loti")
+radius = 500.0
+height = 1000.0
+
+[sub_resource type="Animation" id="Animation_hn7fu"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_3fawe"]
+resource_name = "new_animation"
+length = 6.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:rotation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2, 3, 4, 5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.418879, 0.436332, 0), Vector3(0.610865, 1.71915, 0), Vector3(0.610865, 1.71915, 0.549779), Vector3(0.688533, 1.17524, 0.177098), Vector3(0.520142, 0.645238, 0.225392)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4rqot"]
+_data = {
+"RESET": SubResource("Animation_hn7fu"),
+"new_animation": SubResource("Animation_3fawe")
+}
+
+[sub_resource type="Environment" id="Environment_sj20m"]
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_energy = 0.15
+tonemap_mode = 1
+tonemap_exposure = 1.2
+tonemap_white = 0.9
+glow_enabled = true
+glow_strength = 1.05
+glow_bloom = 0.1
+glow_hdr_scale = 1.8
+
+[node name="World" type="Node3D"]
+script = ExtResource("1_sx2i0")
+
+[node name="Camera3D" parent="." instance=ExtResource("3_wl6xf")]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Camera3D"]
+cast_shadow = 0
+mesh = SubResource("SphereMesh_qlen8")
+skeleton = NodePath("../..")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Camera3D"]
+libraries = {
+"": SubResource("AnimationLibrary_4rqot")
+}
+autoplay = "new_animation"
+speed_scale = 0.015
+
+[node name="UI" parent="." instance=ExtResource("4_7pt2j")]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_0avlo")
+volume_db = -12.0
+autoplay = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_sj20m")

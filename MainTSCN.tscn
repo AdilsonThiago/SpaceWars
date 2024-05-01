@@ -1,0 +1,152 @@
+[gd_scene load_steps=7 format=3 uid="uid://bdfgrx1848sdr"]
+
+[ext_resource type="Script" path="res://Main.gd" id="1_466yp"]
+[ext_resource type="Texture2D" uid="uid://djiylvfbbb75d" path="res://Backgrounds/space-travel-kosmos-zviozdy-armada-korabli.jpg" id="2_7hg68"]
+[ext_resource type="Texture2D" uid="uid://bl2hxin4oxcm0" path="res://Spaceships-And-Comp/autoswp.png" id="3_4ar6i"]
+[ext_resource type="Texture2D" uid="uid://m8qq4u60ad8q" path="res://Backgrounds/log.png" id="3_4iukf"]
+[ext_resource type="AudioStream" uid="uid://d0x7s0jlgp24a" path="res://Musics/SpaceTheme.mp3" id="3_8nql1"]
+
+[sub_resource type="Theme" id="Theme_gnh8g"]
+default_font_size = 25
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_466yp")
+
+[node name="Image" type="Sprite2D" parent="."]
+modulate = Color(0.392157, 0.392157, 0.392157, 1)
+texture = ExtResource("2_7hg68")
+centered = false
+
+[node name="Main" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -40.0
+offset_right = 20.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="Main"]
+position = Vector2(-210, -532)
+texture = ExtResource("3_4iukf")
+centered = false
+
+[node name="Text" type="Label" parent="Main"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -570.0
+offset_top = -455.0
+offset_right = 571.0
+offset_bottom = -7.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = SubResource("Theme_gnh8g")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.74902)
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CharacterMenu" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterMenu"]
+position = Vector2(-253.6, 32)
+scale = Vector2(2.3, 2.3)
+texture = ExtResource("3_4ar6i")
+hframes = 2
+vframes = 2
+
+[node name="Text" type="Label" parent="CharacterMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 20.4
+offset_top = -212.0
+offset_right = 527.4
+offset_bottom = 239.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_gnh8g")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.74902)
+text = "Life: ***
+Speed: ***
+Shoot Speed: ***
+Damage: ***"
+vertical_alignment = 1
+
+[node name="Credits" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -490.0
+offset_top = -238.0
+offset_right = 490.0
+offset_bottom = 238.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Text" type="Label" parent="Credits"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -570.0
+offset_top = -316.0
+offset_right = 571.0
+offset_bottom = 318.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_gnh8g")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.74902)
+text = "Models and textures:
+Maik Hoffmann - http://www.majadroid.com
+
+Musics:
+Space Dimensions - Matthew Pablo - https://matthewpablo.com/services/
+Space Theme - tcarisland https://opengameart.org/users/tcarisland
+
+Geral development and design:
+Adilson Thiago Silva - www.youtube.com/devisfun
+
+Thanks for playing!!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_8nql1")
+volume_db = -4.0
+autoplay = true

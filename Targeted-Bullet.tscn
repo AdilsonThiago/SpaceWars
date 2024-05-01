@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=3 uid="uid://dnp4j26os6xss"]
+
+[ext_resource type="Script" path="res://Targeted-Bullet.gd" id="1_x11ly"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tkn0a"]
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.486275, 0.486275, 0.486275, 1)
+metallic = 0.8
+roughness = 0.3
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7wbnc"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+albedo_color = Color(1, 0.733333, 0, 0.196078)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_es12h"]
+material = SubResource("StandardMaterial3D_7wbnc")
+radius = 0.045
+height = 0.65
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_5d70k"]
+height = 3.055
+
+[node name="Bullet" type="Area3D" groups=["projectile"]]
+script = ExtResource("1_x11ly")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.615, 0, 0, 0, -5.09238e-08, -1.66, 0, 1.165, -7.25609e-08, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_tkn0a")
+cast_shadow = 0
+mesh = SubResource("CapsuleMesh_es12h")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(2.5, 0, 0, 0, -3.0598e-08, -2.5, 0, 0.7, -1.09278e-07, 0, 0, -0.333958)
+material_override = SubResource("StandardMaterial3D_tkn0a")
+cast_shadow = 0
+mesh = SubResource("CapsuleMesh_es12h")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.25, 0, 0, 0, -1.09278e-08, -0.25, 0, 0.25, -1.09278e-08, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_5d70k")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

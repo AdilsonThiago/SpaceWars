@@ -1,0 +1,121 @@
+[gd_scene load_steps=9 format=3 uid="uid://4wnfc6ci3inn"]
+
+[ext_resource type="Script" path="res://xray.gd" id="1_vsn8j"]
+[ext_resource type="AudioStream" uid="uid://cfgnfuhukbats" path="res://Sfx/weaponfire9.wav" id="2_wu2tn"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jav02"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+disable_ambient_light = true
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.203922, 1, 1, 0.0470588)
+disable_receive_shadows = true
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_jnku5"]
+radius = 1.2
+height = 50.0
+
+[sub_resource type="Animation" id="Animation_vhonm"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Node3D/MeshInstance3D:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Node3D:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_7r606"]
+resource_name = "normal"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Node3D/MeshInstance3D:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [true, false, true, false, true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Node3D:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.3, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(1, 1, 1), Vector3(0.91, 0.91, 0.91), Vector3(1.3, 1.3, 1.3), Vector3(0.85, 0.85, 0.85)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8xw76"]
+_data = {
+"RESET": SubResource("Animation_vhonm"),
+"normal": SubResource("Animation_7r606")
+}
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ffg52"]
+radius = 1.2
+height = 50.0
+
+[node name="Area3D" type="Area3D"]
+script = ExtResource("1_vsn8j")
+
+[node name="Node3D" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 23.5)
+material_override = SubResource("StandardMaterial3D_jav02")
+mesh = SubResource("CapsuleMesh_jnku5")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Node3D/MeshInstance3D"]
+transform = Transform3D(0.823, 0, 0, 0, 0.99, 0, 0, 0, 0.823, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_jav02")
+mesh = SubResource("CapsuleMesh_jnku5")
+skeleton = NodePath("../../..")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Node3D/MeshInstance3D/MeshInstance3D2"]
+transform = Transform3D(0.753, 0, 0, 0, 0.985, -2.67519e-15, 0, 3.49942e-15, 0.753, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_jav02")
+mesh = SubResource("CapsuleMesh_jnku5")
+skeleton = NodePath("../../../..")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_8xw76")
+}
+autoplay = "normal"
+speed_scale = 1.5
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 23.5)
+shape = SubResource("CapsuleShape3D_ffg52")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_wu2tn")
+autoplay = true

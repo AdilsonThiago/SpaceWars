@@ -1,0 +1,117 @@
+[gd_scene load_steps=12 format=3 uid="uid://dx5kqavrn7bgc"]
+
+[ext_resource type="Script" path="res://Bullet.gd" id="1_87qsh"]
+[ext_resource type="Texture2D" uid="uid://cry5etx0x3tdt" path="res://Effects/bolt.png" id="2_5opek"]
+[ext_resource type="AudioStream" uid="uid://b78nd0tmvbt0q" path="res://Sfx/menu_new.wav" id="3_3raaa"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4y0rb"]
+transparency = 1
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.0862745, 0.164706, 0.258824, 0.156863)
+emission = Color(0, 1, 1, 1)
+emission_energy_multiplier = 0.5
+
+[sub_resource type="SphereMesh" id="SphereMesh_3gkr5"]
+radius = 0.6
+height = 1.2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s3kbf"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+disable_ambient_light = true
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("2_5opek")
+disable_receive_shadows = true
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_i272g"]
+
+[sub_resource type="Animation" id="Animation_ag8tq"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:material_override:albedo_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.0862745, 0.164706, 0.258824, 0.156863)]
+}
+
+[sub_resource type="Animation" id="Animation_2yymw"]
+resource_name = "normal"
+length = 0.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:material_override:albedo_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.0862745, 0.164706, 0.258824, 0.454902), Color(0.0862745, 0.164706, 0.258824, 0.733333)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hbj10"]
+_data = {
+"RESET": SubResource("Animation_ag8tq"),
+"normal": SubResource("Animation_2yymw")
+}
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_06d3l"]
+radius = 1.1097
+
+[node name="Node3D" type="Area3D" groups=["projectile"]]
+script = ExtResource("1_87qsh")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.75, 0, 0, 0, 1.75, 0, 0, 0, 1.75, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_4y0rb")
+cast_shadow = 0
+mesh = SubResource("SphereMesh_3gkr5")
+
+[node name="CPUParticles3D" type="CPUParticles3D" parent="."]
+material_override = SubResource("StandardMaterial3D_s3kbf")
+cast_shadow = 0
+amount = 5
+lifetime = 0.05
+randomness = 1.0
+local_coords = true
+mesh = SubResource("QuadMesh_i272g")
+emission_shape = 1
+emission_sphere_radius = 1.3
+direction = Vector3(0, 0, 0)
+spread = 0.0
+gravity = Vector3(0, 0, 0)
+angle_min = -180.0
+angle_max = 180.0
+scale_amount_min = 0.4
+scale_amount_max = 1.2
+color = Color(1, 1, 1, 0.266667)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_hbj10")
+}
+autoplay = "normal"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_06d3l")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3_3raaa")
+volume_db = -5.0
+autoplay = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

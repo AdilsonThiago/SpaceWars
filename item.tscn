@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://bmr6fl6r7dyl2"]
+
+[ext_resource type="Script" path="res://item.gd" id="1_dw8gc"]
+[ext_resource type="Texture2D" uid="uid://3f40brevbdte" path="res://Effects/itens.png" id="2_36eo3"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_frj7g"]
+radius = 0.773686
+
+[node name="Area3D" type="Area3D"]
+script = ExtResource("1_dw8gc")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0, 0, 0)
+cast_shadow = 0
+billboard = 1
+texture = ExtResource("2_36eo3")
+hframes = 2
+vframes = 3
+frame = 5
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_frj7g")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

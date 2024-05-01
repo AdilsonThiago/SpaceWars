@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://b1lpt0svi26md"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4y0rb"]
+transparency = 1
+blend_mode = 1
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.392157, 1, 1, 0.156863)
+metallic = 0.7
+roughness = 0.6
+emission = Color(0, 1, 1, 1)
+emission_energy_multiplier = 0.5
+
+[sub_resource type="SphereMesh" id="SphereMesh_3gkr5"]
+radius = 1.5
+height = 3.0
+
+[node name="Node3D" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_4y0rb")
+cast_shadow = 0
+mesh = SubResource("SphereMesh_3gkr5")

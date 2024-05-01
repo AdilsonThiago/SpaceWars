@@ -1,0 +1,137 @@
+[gd_scene load_steps=2 format=3 uid="uid://sbqaqcstpjck"]
+
+[ext_resource type="Script" path="res://end.gd" id="1_sove0"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_sove0")
+
+[node name="quit" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -249.0
+offset_bottom = 62.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 33
+text = "X"
+
+[node name="Main" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Text" type="Label" parent="Main"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -576.5
+offset_top = -328.0
+offset_right = 576.5
+offset_bottom = 328.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 8
+theme_override_font_sizes/font_size = 50
+text = "Main menu
+Highscore table"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HighTabel" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -562.0
+offset_top = -314.0
+offset_right = -522.0
+offset_bottom = -274.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="hightable" type="Label" parent="HighTabel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 18.0
+offset_top = 6.0
+offset_right = 1070.0
+offset_bottom = 519.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 8
+theme_override_font_sizes/font_size = 33
+text = "one
+two
+tree
+four
+five
+six
+seven
+eith
+nine
+ten"
+vertical_alignment = 1
+
+[node name="customname" type="LineEdit" parent="HighTabel"]
+layout_mode = 0
+offset_left = 143.0
+offset_top = 566.0
+offset_right = 642.0
+offset_bottom = 620.0
+theme_override_font_sizes/font_size = 33
+text = "Anonimous"
+clear_button_enabled = true
+draw_control_chars = true
+select_all_on_focus = true
+
+[node name="submit" type="Button" parent="HighTabel"]
+layout_mode = 0
+offset_left = 951.0
+offset_top = 564.0
+offset_right = 1116.0
+offset_bottom = 618.0
+theme_override_font_sizes/font_size = 33
+text = "Submit"
+
+[node name="scr" type="Label" parent="HighTabel"]
+layout_mode = 0
+offset_left = 654.0
+offset_top = 569.0
+offset_right = 937.0
+offset_bottom = 618.0
+theme_override_font_sizes/font_size = 33
+text = "0"
+
+[node name="Info" type="Label" parent="HighTabel"]
+layout_mode = 0
+offset_left = 22.0
+offset_top = 570.0
+offset_right = 135.0
+offset_bottom = 619.0
+theme_override_font_sizes/font_size = 33
+text = "Name:"
+
+[connection signal="pressed" from="quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="HighTabel/submit" to="." method="_on_submit_pressed"]

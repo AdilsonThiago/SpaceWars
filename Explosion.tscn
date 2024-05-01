@@ -1,0 +1,111 @@
+[gd_scene load_steps=10 format=3 uid="uid://e81u7o2ftl3h"]
+
+[ext_resource type="Script" path="res://Explosion.gd" id="1_0d2eb"]
+[ext_resource type="Texture2D" uid="uid://c64843rdjyw8q" path="res://Effects/fire_01.png" id="1_xyxn3"]
+[ext_resource type="AudioStream" uid="uid://bg3xxxo1hmoeh" path="res://Sfx/explosion3.wav" id="2_m7tba"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8yhqv"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("1_xyxn3")
+disable_receive_shadows = true
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_orf4x"]
+material = SubResource("StandardMaterial3D_8yhqv")
+
+[sub_resource type="Gradient" id="Gradient_qqg5q"]
+offsets = PackedFloat32Array(0, 0.60177, 1)
+colors = PackedColorArray(1, 0.7, 0, 1, 1, 0.366667, 0, 1, 0, 0, 0, 1)
+
+[sub_resource type="Animation" id="Animation_yd5la"]
+resource_name = "Normal"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CPUParticles3D:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_gcnno"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CPUParticles3D:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vdeou"]
+_data = {
+"Normal": SubResource("Animation_yd5la"),
+"RESET": SubResource("Animation_gcnno")
+}
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_0d2eb")
+
+[node name="CPUParticles3D" type="CPUParticles3D" parent="."]
+cast_shadow = 0
+emitting = false
+amount = 23
+lifetime = 0.6
+one_shot = true
+explosiveness = 0.8
+randomness = 0.75
+local_coords = true
+mesh = SubResource("QuadMesh_orf4x")
+emission_shape = 1
+emission_sphere_radius = 1.0
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 3.0
+initial_velocity_max = 4.5
+angle_max = 360.0
+scale_amount_min = 2.0
+scale_amount_max = 3.0
+color_ramp = SubResource("Gradient_qqg5q")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_vdeou")
+}
+autoplay = "Normal"
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_m7tba")
+volume_db = 28.0
+autoplay = true
+attenuation_filter_db = 0.0

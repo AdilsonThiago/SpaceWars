@@ -1,0 +1,46 @@
+[gd_scene load_steps=6 format=3 uid="uid://ckndo12vwlpb0"]
+
+[ext_resource type="Script" path="res://Bullet.gd" id="1_wbf7m"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7wbnc"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+albedo_color = Color(1, 0.733333, 0, 0.196078)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_es12h"]
+material = SubResource("StandardMaterial3D_7wbnc")
+radius = 0.045
+height = 0.65
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dpy4f"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+albedo_color = Color(1, 0.317647, 0, 0.337255)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_5d70k"]
+height = 3.055
+
+[node name="Bullet" type="Area3D" groups=["projectile"]]
+script = ExtResource("1_wbf7m")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+cast_shadow = 0
+mesh = SubResource("CapsuleMesh_es12h")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.615, 0, 0, 0, -5.09238e-08, -1.66, 0, 1.165, -7.25609e-08, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_dpy4f")
+cast_shadow = 0
+mesh = SubResource("CapsuleMesh_es12h")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.25, 0, 0, 0, -1.09278e-08, -0.25, 0, 0.25, -1.09278e-08, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_5d70k")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+light_color = Color(1, 0.384314, 0, 1)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
